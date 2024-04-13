@@ -15,7 +15,7 @@ import (
 
 func main() {
 	// train
-	file, err := os.Open("mnist_train.csv")
+	file, err := os.Open("mnist/mnist_train.csv")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -38,7 +38,7 @@ func main() {
 	fmt.Println("train data loaded. rows:", len(brain.Inputs))
 
 	// test
-	file, err = os.Open("mnist_test.csv")
+	file, err = os.Open("mnist/mnist_test.csv")
 	if err != nil {
 		log.Fatal(err)
 	}
