@@ -13,16 +13,15 @@ import (
 	"strings"
 )
 
-func main() {
-	// train
+func train() {
 	file, err := os.Open("mnist/mnist_train.csv")
 	if err != nil {
 		log.Fatal(err)
 	}
 	sin := bufio.NewScanner(file)
-	nRowsTrain := 0
+	nRows := 0
 	for sin.Scan() {
-		nRowsTrain++
+		nRows++
 		line := sin.Text()
 		split := strings.Split(line, ",")
 		data := []int{}
@@ -36,18 +35,19 @@ func main() {
 		brain.Train(data[1:], data[0])
 	}
 	file.Close()
-	fmt.Println("train data loaded. rows:", nRowsTrain)
+	fmt.Println("train data loaded. rows:", nRows)
+}
 
-	// test
-	file, err = os.Open("mnist/mnist_test.csv")
+func test() {
+	file, err := os.Open("mnist/mnist_test.csv")
 	if err != nil {
 		log.Fatal(err)
 	}
-	sin = bufio.NewScanner(file)
-	nRowsTest := 0
+	sin := bufio.NewScanner(file)
+	nRows := 0
 	nCorrect := 0
 	for sin.Scan() {
-		nRowsTest++
+		nRows++
 		line := sin.Text()
 		split := strings.Split(line, ",")
 		data := []int{}
@@ -65,7 +65,12 @@ func main() {
 		if best == data[0] {
 			nCorrect++
 		}
-		fmt.Println("predicted:", best, "answer:", data[0], "accuracy:", float64(nCorrect)/float64(nRowsTest))
+		fmt.Println("predicted:", best, "answer:", data[0], "accuracy:", float64(nCorrect)/float64(nRows))
 	}
 	file.Close()
+}
+
+func main() {
+	train()
+	test()
 }
