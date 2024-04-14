@@ -18,31 +18,22 @@ func sumSqErr(x, y []int) int {
 	return sum
 }
 
-type Brain struct {
-	Inputs  [][]int
-	Outputs []int
+var inputs [][]int
+var outputs []int
+
+func Train(input []int, output int) {
+	inputs = append(inputs, input)
+	outputs = append(outputs, output)
 }
 
-func NewBrain() Brain {
-	var b Brain
-	b.Inputs = [][]int{}
-	b.Outputs = []int{}
-	return b
-}
-
-func (b *Brain) Train(input []int, output int) {
-	b.Inputs = append(b.Inputs, input)
-	b.Outputs = append(b.Outputs, output)
-}
-
-func (b *Brain) Guess(input []int) int {
+func Guess(input []int) int {
 	best := 0
 	minError := -1
-	for i, d := range b.Inputs {
+	for i, d := range inputs {
 		error := sumSqErr(input, d)
 		if minError < 0 || error < minError {
 			minError = error
-			best = int(b.Outputs[i])
+			best = outputs[i]
 		}
 	}
 	return best
